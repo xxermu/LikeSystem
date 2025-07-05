@@ -30,6 +30,7 @@ public class BlogController {
     }
 
     @GetMapping("/list")
+    @Operation(summary = "获取博客列表")
     public BaseResponse<List<BlogVO>> list(HttpServletRequest request) {
         List<Blog> blogList = blogService.list();
         List<BlogVO> blogVOList = blogService.getBlogVOList(blogList, request);

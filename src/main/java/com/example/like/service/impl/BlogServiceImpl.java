@@ -3,6 +3,9 @@ package com.example.like.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.like.constant.ThumbConstant;
+import com.example.like.dao.dto.DoThumbRequest;
+import com.example.like.dao.dto.ThumbCacheModel;
 import com.example.like.dao.entity.Blog;
 import com.example.like.dao.entity.Thumb;
 import com.example.like.dao.entity.User;
@@ -14,6 +17,7 @@ import com.example.like.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -36,6 +40,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Lazy
     private ThumbService thumbService;
 
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public BlogVO getBlogVOById(long blogId, HttpServletRequest request) {
         Blog blog = this.getById(blogId);
@@ -51,12 +58,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             return blogVO;
         }
 
-        Thumb thumb = thumbService.lambdaQuery()
-                .eq(Thumb::getUserId, loginUser.getId())
-                .eq(Thumb::getBlogId, blog.getId())
-                .one();
-        blogVO.setHasThumb(thumb != null);
+        DoThumbRequest request = new DoThumbRequest();
+        request.setBlogId(blog.getId());
+        request.setCreateTime(blog.getCreateTime());
 
+        ThumbCacheModel model = thumbService.hasThumb(request, loginUser.getId());
+        boolean exist = model == null ? false : true;
+        blogVO.setHasThumb(exist);
         return blogVO;
     }
 
@@ -65,14 +73,14 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         User loginUser = userService.getLoginUser(request);
         Map<Long, Boolean> blogIdHasThumbMap = new HashMap<>();
         if (ObjUtil.isNotEmpty(loginUser)) {
-            Set<Long> blogIdSet = blogList.stream().map(Blog::getId).collect(Collectors.toSet());
+            List<Object> blogIdList = blogList.stream().map(blog -> blog.getId().toString()).collect(Collectors.toList());
             // 获取点赞
-            List<Thumb> thumbList = thumbService.lambdaQuery()
-                    .eq(Thumb::getUserId, loginUser.getId())
-                    .in(Thumb::getBlogId, blogIdSet)
-                    .list();
-
-            thumbList.forEach(blogThumb -> blogIdHasThumbMap.put(blogThumb.getBlogId(), true));
+            //使用multiGet获取到的结果列表跟传入参数列表顺序是一一对应的
+            List<Object> thumbList = redisTemplate.opsForHash().multiGet(ThumbConstant.USER_THUMB_KEY_PREFIX + loginUser.getId(), blogIdList);
+            for (int i = 0; i < thumbList.size(); i++) {
+                boolean exist = thumbList.get(i) == null ? false : true;
+                blogIdHasThumbMap.put(Long.valueOf(blogIdList.get(i).toString()), exist);
+            }
         }
 
         return blogList.stream()
@@ -83,8 +91,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
                 })
                 .toList();
     }
-
-
 }
 
 

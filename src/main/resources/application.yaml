@@ -11,6 +11,12 @@ spring:
     url: jdbc:mysql://localhost:3306/thumb_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 23580zxcvbnm
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      timeout: 5000
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

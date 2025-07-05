@@ -1,6 +1,7 @@
 package com.example.like.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
@@ -23,37 +24,44 @@ public class Blog {
     /**
      * 
      */
-    private Long userid;
+    @TableField(value = "userId")
+    private Long userId;
 
     /**
      * 标题
      */
+    @TableField(value = "title")
     private String title;
 
     /**
      * 封面
      */
-    private String coverimg;
+    @TableField(value = "coverImg")
+    private String coverImg;
 
     /**
      * 内容
      */
+    @TableField(value = "content")
     private String content;
 
     /**
      * 点赞数
      */
-    private Integer thumbcount;
+    @TableField(value = "thumbCount")
+    private Integer thumbCount;
 
     /**
      * 创建时间
      */
-    private Date createtime;
+    @TableField(value = "createTime")
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date updatetime;
+    @TableField(value = "updateTime")
+    private Date updateTime;
 
     @Override
     public boolean equals(Object that) {
@@ -68,13 +76,13 @@ public class Blog {
         }
         Blog other = (Blog) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUserid() == null ? other.getUserid() == null : this.getUserid().equals(other.getUserid()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getCoverimg() == null ? other.getCoverimg() == null : this.getCoverimg().equals(other.getCoverimg()))
+            && (this.getCoverImg() == null ? other.getCoverImg() == null : this.getCoverImg().equals(other.getCoverImg()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
-            && (this.getThumbcount() == null ? other.getThumbcount() == null : this.getThumbcount().equals(other.getThumbcount()))
-            && (this.getCreatetime() == null ? other.getCreatetime() == null : this.getCreatetime().equals(other.getCreatetime()))
-            && (this.getUpdatetime() == null ? other.getUpdatetime() == null : this.getUpdatetime().equals(other.getUpdatetime()));
+            && (this.getThumbCount() == null ? other.getThumbCount() == null : this.getThumbCount().equals(other.getThumbCount()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
 
     @Override
@@ -82,13 +90,13 @@ public class Blog {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getUserid() == null) ? 0 : getUserid().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
-        result = prime * result + ((getCoverimg() == null) ? 0 : getCoverimg().hashCode());
+        result = prime * result + ((getCoverImg() == null) ? 0 : getCoverImg().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
-        result = prime * result + ((getThumbcount() == null) ? 0 : getThumbcount().hashCode());
-        result = prime * result + ((getCreatetime() == null) ? 0 : getCreatetime().hashCode());
-        result = prime * result + ((getUpdatetime() == null) ? 0 : getUpdatetime().hashCode());
+        result = prime * result + ((getThumbCount() == null) ? 0 : getThumbCount().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
 
@@ -99,13 +107,13 @@ public class Blog {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userid=").append(userid);
+        sb.append(", userid=").append(userId);
         sb.append(", title=").append(title);
-        sb.append(", coverimg=").append(coverimg);
+        sb.append(", coverimg=").append(coverImg);
         sb.append(", content=").append(content);
-        sb.append(", thumbcount=").append(thumbcount);
-        sb.append(", createtime=").append(createtime);
-        sb.append(", updatetime=").append(updatetime);
+        sb.append(", thumbcount=").append(thumbCount);
+        sb.append(", createtime=").append(createTime);
+        sb.append(", updatetime=").append(updateTime);
         sb.append("]");
         return sb.toString();
     }
