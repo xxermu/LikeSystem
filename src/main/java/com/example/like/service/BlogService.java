@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.like.dao.vo.BlogVO;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 /**
 * @author Ermu
 * @description 针对表【blog】的数据库操作Service
@@ -12,4 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 */
 public interface BlogService extends IService<Blog> {
     BlogVO getBlogVOById(long blogId, HttpServletRequest request);
+
+    List<BlogVO> getBlogVOList(List<Blog> blogList, HttpServletRequest request);
+
 }
