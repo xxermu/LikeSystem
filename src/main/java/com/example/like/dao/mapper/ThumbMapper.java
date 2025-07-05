@@ -1,0 +1,18 @@
+package com.example.like.dao.mapper;
+
+import com.example.like.dao.entity.Thumb;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+* @author Ermu
+* @description 针对表【thumb】的数据库操作Mapper
+* @createDate 2025-07-05 12:49:41
+* @Entity com.example.like.dao.entity.Thumb
+*/
+public interface ThumbMapper extends BaseMapper<Thumb> {
+
+}
+
+
+
+
