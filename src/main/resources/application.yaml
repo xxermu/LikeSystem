@@ -27,7 +27,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: com.example.like.controller
+      packages-to-scan: com.example.like
 
 knife4j:
   enable: true

@@ -16,7 +16,7 @@ public class SwaggerConfiguration implements ApplicationRunner {
 
     @Value("${server.port:8080}")
     private String serverPort;
-    @Value("${server.servlet.context-path:}")
+    @Value("${spring.mvc.servlet.path:api}")
     private String contextPath;
 
     /**
